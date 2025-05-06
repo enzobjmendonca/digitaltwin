@@ -1,0 +1,14 @@
+torch
+transformers
+datasets
+accelerate
+peft
+bitsandbytes
+sentencepiece
+trl
+optimum
+cc
+jupyter
+pandas
+numpy
+
