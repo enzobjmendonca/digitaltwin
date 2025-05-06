@@ -13,8 +13,10 @@ def parse_whatsapp_chat(input_path, output_path, main_character, min_words=3):
         match = re.match(pattern, line)
         if match:
             _, speaker, text = match.groups()
-            messages.append({"speaker": speaker.strip(), "text": text.strip()})
-        elif messages:
+            # Skip messages containing hidden media
+            if "<Mídia oculta>" not in text:
+                messages.append({"speaker": speaker.strip(), "text": text.strip()})
+        elif messages and "<Mídia oculta>" not in line:
             messages[-1]["text"] += " " + line.strip()  # continuation line
 
     # Group messages by consecutive speaker
@@ -47,7 +49,7 @@ def parse_whatsapp_chat(input_path, output_path, main_character, min_words=3):
 
             if len(input_text.split()) >= min_words and len(output_text.split()) >= min_words:
                 samples.append({
-                    "instruction": f"Você é {main_character}. Responda como ele.",
+                    "instruction": f"You are {main_character}. Respond as them.",
                     "input": input_text,
                     "output": output_text
                 })
